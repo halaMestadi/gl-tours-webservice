@@ -19,3 +19,9 @@ Route::get('/', function () {
 Route::group(['prefix' => 'admin'], function () {
     Voyager::routes();
 });
+
+Route::group(['prefix' => 'api/v1'], function () {
+    Route::resource('ad', 'AdController');
+    Route::resource('place', 'PlaceController');
+});
+
