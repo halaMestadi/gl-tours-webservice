@@ -21,7 +21,10 @@ Route::group(['prefix' => 'admin'], function () {
 });
 
 Route::group(['prefix' => 'api/v1'], function () {
-    Route::resource('ad', 'AdController');
-    Route::resource('place', 'PlaceController');
 });
 
+
+
+Route::get('/test', function () {
+    return view('test');
+});

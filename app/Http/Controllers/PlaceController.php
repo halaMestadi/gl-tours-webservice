@@ -52,6 +52,7 @@ class PlaceController extends Controller
      */
     public function show(Place $place)
     {
+        $place->picture = str_replace("\\", "/", asset("storage" . "/" . $place->picture));
         return response()->json($place);
     }
 
@@ -92,7 +93,8 @@ class PlaceController extends Controller
         $place->delete();
 
         return response()->json([
-            'message' => 'Successfully deleted a place!'
+            'message' => 'Successfully deleted a place!',
+            "place" => $place,
         ]);
     }
 }
