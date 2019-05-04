@@ -16,12 +16,12 @@ class AuthController extends Controller
      * @param Request $request
      * @return JsonResponse [string] message
      */
-    public function signup(Request $request)
+    public function register(Request $request)
     {
         $request->validate([
             'name' => 'required|string',
             'email' => 'required|string|email|unique:users',
-            'password' => 'required|string|confirmed'
+            'password' => 'required|string'
         ]);
         $user = new User([
             'name' => $request->name,
@@ -29,9 +29,7 @@ class AuthController extends Controller
             'password' => bcrypt($request->password)
         ]);
         $user->save();
-        return response()->json([
-            'message' => 'Successfully created user!'
-        ], 201);
+        return $this->login($request);
     }
 
     /**
@@ -59,11 +57,12 @@ class AuthController extends Controller
             $token->expires_at = Carbon::now()->addYear(1);
         $token->save();
         return response()->json([
+            'user' => $user,
             'access_token' => $tokenResult->accessToken,
             'token_type' => 'Bearer',
             'expires_at' => Carbon::parse(
                 $tokenResult->token->expires_at
-            )->toDateTimeString()
+            )->toDateTimeString(),
         ]);
     }
 
