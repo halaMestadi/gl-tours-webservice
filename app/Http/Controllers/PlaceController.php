@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\Places;
 use App\Place;
 use Exception;
 use Illuminate\Http\Request;
@@ -16,8 +17,7 @@ class PlaceController extends Controller
      */
     public function index()
     {
-        $places = Place::all();
-        return response()->json($places);
+        return response()->json(Places::collection(Place::all()));
     }
 
     /**
@@ -52,8 +52,7 @@ class PlaceController extends Controller
      */
     public function show(Place $place)
     {
-        $place->picture = str_replace("\\", "/", asset("storage" . "/" . $place->picture));
-        return response()->json($place);
+        return response()->json(new Places($place));
     }
 
     /**
